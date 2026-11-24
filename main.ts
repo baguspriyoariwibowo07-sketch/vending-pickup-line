@@ -32,6 +32,13 @@ function validateEntry(text: string): void {
 
 validateEntry(LINE);
 
+// The authored line is exactly 96 characters; that length is part of
+// the entry (the line's timing depends on it), so pin it — any edit
+// that changes the line's length is a different entry, not this one.
+if (LINE.length !== 96) {
+  throw new Error(`authored line must be 96 characters, got ${LINE.length}`);
+}
+
 // Write the entry, then read it back and re-validate what actually
 // landed on disk: the scorer reads the file, not this source, so the
 // file itself is what must stay inside the gate.
